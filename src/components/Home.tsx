@@ -23,6 +23,16 @@ const Home: React.FC = () => {
         >
           <Title level={4}>Your task automation hub</Title>
           <Paragraph>View all tasks and explore detailed execution insights.</Paragraph>
+
+          <Button
+            type="primary"
+            size="large"
+            onClick={() => navigate("/create-task")}
+          >
+            Add Task
+          </Button>
+
+          
           <Button
             type="primary"
             size="large"
@@ -30,6 +40,8 @@ const Home: React.FC = () => {
           >
             View All Tasks
           </Button>
+
+         
         </Card>
       </Space>
     </div>

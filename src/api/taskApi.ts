@@ -14,14 +14,24 @@ export const VIEW_ALL_TASKS = async () => {
   }
 };
 
-
 // Create a new task
-export const CREATE_TASK = async (taskData) => {
+export const CREATE_TASK = async (taskData: any) => {
   try {
     const response = await axios.post(BASE_URL, taskData);
     return response.data; // returns TaskResponseDTO
   } catch (error) {
     console.error("Error creating task:", error);
+    throw error;
+  }
+};
+
+// Get a task by ID
+export const GET_TASK_BY_ID = async (id: string) => {
+  try {
+    const response = await axios.get(`${BASE_URL}/${id}`);
+    return response.data; // returns TaskResponseDTO
+  } catch (error) {
+    console.error(`Error fetching task with id ${id}:`, error);
     throw error;
   }
 };

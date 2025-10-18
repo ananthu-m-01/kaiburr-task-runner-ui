@@ -1,5 +1,6 @@
-import { Card, List, Spin, Typography } from "antd";
+import { Button, Card, List, Spin, Typography } from "antd";
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { VIEW_ALL_TASKS } from "../api/taskApi";
 
 const { Title, Text } = Typography;
@@ -22,12 +23,18 @@ interface Task {
 const ViewAllTasks: React.FC = () => {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTasks = async () => {
-      const data = await VIEW_ALL_TASKS();
-      setTasks(data);
-      setLoading(false);
+      try {
+        const data = await VIEW_ALL_TASKS();
+        setTasks(data);
+      } catch (error) {
+        console.error("Error fetching tasks:", error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchTasks();
   }, []);
@@ -51,7 +58,7 @@ const ViewAllTasks: React.FC = () => {
 
   return (
     <div style={{ padding: 20 }}>
-      <Title level={3}>📋 All Tasks</Title>
+      <Title level={3}> All Tasks</Title>
       <List
         grid={{ gutter: 16, column: 1 }}
         dataSource={tasks}
@@ -60,18 +67,13 @@ const ViewAllTasks: React.FC = () => {
             <Card title={task.name || "Untitled Task"} style={{ borderRadius: 10 }}>
               <Text strong>Owner:</Text> {task.owner || "N/A"} <br />
               <Text strong>Command:</Text> {task.command || "N/A"} <br />
-              <Text strong>Executions:</Text>{" "}
-              {task.taskExecutions.length > 0
-                ? task.taskExecutions.map((exe, index) => (
-                    <div key={index} style={{ marginTop: 5 }}>
-                      <Text type={exe.status === "SUCCESS" ? "success" : "danger"}>
-                        [{exe.status}]
-                      </Text>{" "}
-                      {new Date(exe.startTime).toLocaleString()} -{" "}
-                      {new Date(exe.endTime).toLocaleString()}
-                    </div>
-                  ))
-                : "No executions yet."}
+              <Button
+                type="primary"
+                style={{ marginTop: 10 }}
+                onClick={() => navigate(`/view-task/${task.id}`)}
+              >
+                See More Details
+              </Button>
             </Card>
           </List.Item>
         )}
