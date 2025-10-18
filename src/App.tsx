@@ -1,9 +1,10 @@
 import { ConfigProvider, Layout, theme } from "antd";
+import CreateTask from "./components/CreateTask";
+
 import React from "react";
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
 import Home from "./components/Home";
 import ViewAllTasks from "./components/ViewAllTasks";
-
 const { Content, Footer } = Layout;
 
 const App: React.FC = () => {
@@ -40,6 +41,7 @@ const App: React.FC = () => {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/view-tasks" element={<ViewAllTasks />} />
+                <Route path="/create-task" element={<CreateTask />} />
               </Routes>
 
       

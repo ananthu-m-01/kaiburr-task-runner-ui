@@ -1,5 +1,6 @@
 import { Card, List, Spin, Typography } from "antd";
 import React, { useEffect, useState } from "react";
+import { VIEW_ALL_TASKS } from "../api/taskApi";
 
 const { Title, Text } = Typography;
 
@@ -23,17 +24,12 @@ const ViewAllTasks: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    fetch("http://localhost:8080/api/tasks")
-      .then((res) => res.json())
-      .then((data) => {
-        setTasks(data);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.error("Error fetching tasks:", err);
-        setTasks([]);
-        setLoading(false);
-      });
+    const fetchTasks = async () => {
+      const data = await VIEW_ALL_TASKS();
+      setTasks(data);
+      setLoading(false);
+    };
+    fetchTasks();
   }, []);
 
   if (loading) {
