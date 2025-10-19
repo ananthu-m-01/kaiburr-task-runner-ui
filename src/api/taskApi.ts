@@ -48,6 +48,7 @@ export const RUN_TASK = async (id: string) => {
 
 // Delete task
 export const DELETE_TASK = async (id: string) => {
+  console.log("delete in taskApi called")
   try {
     const response = await axios.delete(`${BASE_URL}/${id}`);
     return response.data;

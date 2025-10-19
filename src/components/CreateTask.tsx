@@ -25,7 +25,7 @@ const CreateTask: React.FC = () => {
       const response = await CREATE_TASK(values);
       setSavedTask(response);
 
-      // ✅ Set green page message
+      // Set green page message
       setPageMessage({ type: "success", text: "Task added successfully to the database!" });
     } catch (error: any) {
       const backendMessage =
@@ -34,7 +34,7 @@ const CreateTask: React.FC = () => {
         "Something went wrong while saving the task.";
       setErrorMessage(backendMessage);
 
-      // ❌ Set red page message
+      // Set red page message
       setPageMessage({ type: "error", text: backendMessage });
     } finally {
       setLoading(false);
