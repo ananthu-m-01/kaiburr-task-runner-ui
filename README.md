@@ -1,4 +1,3 @@
-````markdown
 # Kaiburr Task Runner Web UI
 
 A modern, responsive web application built with React 18, TypeScript, and Ant Design for managing and executing tasks through an intuitive user interface.
@@ -7,33 +6,33 @@ A modern, responsive web application built with React 18, TypeScript, and Ant De
 
 ## Features
 
-- Create Tasks: Add new tasks with name, owner name, and command details  
-- View Tasks: Display all tasks in a clean, organized table format  
-- Search Tasks: Search and filter tasks by name  
-- Update Tasks: Edit existing task information  
-- Delete Tasks: Remove tasks from the system with confirmation dialogs  
-- Run Tasks: Execute tasks and view command output in real-time  
-- Validation: Form validation ensures data integrity and rejects unsafe commands  
-- Responsive Design: Optimized for desktop and mobile devices  
+- Create Tasks: Add new tasks with name, owner name, and command details
+- View Tasks: Display all tasks in a clean, organized table format
+- Search Tasks: Search and filter tasks by name
+- Update Tasks: Edit existing task information
+- Delete Tasks: Remove tasks from the system with confirmation dialogs
+- Run Tasks: Execute tasks and view command output in real-time
+- Validation: Form validation ensures data integrity and rejects unsafe commands
+- Responsive Design: Optimized for desktop and mobile devices
 
 ---
 
 ## Technology Stack
 
-- Framework: React 18  
-- Language: TypeScript  
-- UI Library: Ant Design (antd)  
-- HTTP Client: Axios  
-- Build Tool: Vite  
-- Package Manager: npm / yarn  
+- Framework: React 18
+- Language: TypeScript
+- UI Library: Ant Design (antd)
+- HTTP Client: Axios
+- Build Tool: Vite
+- Package Manager: npm / yarn
 
 ---
 
 ## Prerequisites
 
-- Node.js (v18 or higher)  
-- npm or yarn package manager  
-- Backend API running (available at [Kaiburr Task Runner API](https://github.com/ananthu-m-01/kaiburr-task-runner-api?tab=readme-ov-file))  
+- Node.js (v18 or higher)
+- npm or yarn package manager
+- Backend API running (available at [Kaiburr Task Runner API](https://github.com/ananthu-m-01/kaiburr-task-runner-api?tab=readme-ov-file))
 
 ---
 
@@ -43,7 +42,7 @@ A modern, responsive web application built with React 18, TypeScript, and Ant De
 git clone https://github.com/ananthu-m-01/kaiburr-task-runner-ui.git
 cd kaiburr-task-runner-ui
 npm install
-````
+```
 
 or
 
@@ -174,14 +173,14 @@ kaiburr-task-runner-ui/
 
 ## UI/UX Features
 
-* Intuitive Navigation
-* Responsive Design
-* Loading States for API calls
-* Error Handling with user-friendly messages
-* Confirmation Dialogs for destructive actions
-* Toast Notifications for immediate feedback
-* Keyboard Navigation and ARIA support
-* Semantic HTML and color contrast compliance
+- Intuitive Navigation
+- Responsive Design
+- Loading States for API calls
+- Error Handling with user-friendly messages
+- Confirmation Dialogs for destructive actions
+- Toast Notifications for immediate feedback
+- Keyboard Navigation and ARIA support
+- Semantic HTML and color contrast compliance
 
 ---
 
@@ -190,13 +189,13 @@ kaiburr-task-runner-ui/
 The application integrates with the backend REST API:
 
 | Method | Endpoint              | Description                        |
-| ------ | --------------------- | ---------------------------------- |
-| GET    | `/api/tasks`          | Retrieve all tasks                 |
-| GET    | `/api/tasks/{id}`     | Retrieve task by ID                |
-| POST   | `/api/tasks`          | Create a new task                  |
-| PUT    | `/api/tasks/{id}`     | Update an existing task            |
-| DELETE | `/api/tasks/{id}`     | Delete a task                      |
-| PUT    | `/api/tasks/{id}/run` | Execute a task and retrieve output |
+|--------|----------------------|-----------------------------------|
+| GET    | `/api/tasks`         | Retrieve all tasks                |
+| GET    | `/api/tasks/{id}`    | Retrieve task by ID               |
+| POST   | `/api/tasks`         | Create a new task                 |
+| PUT    | `/api/tasks/{id}`    | Update an existing task           |
+| DELETE | `/api/tasks/{id}`    | Delete a task                     |
+| PUT    | `/api/tasks/{id}/run`| Execute a task and retrieve output|
 
 Backend API is available at: [Kaiburr Task Runner API](https://github.com/ananthu-m-01/kaiburr-task-runner-api?tab=readme-ov-file)
 
@@ -204,10 +203,10 @@ Backend API is available at: [Kaiburr Task Runner API](https://github.com/ananth
 
 ## Browser Support
 
-* Chrome (latest)
-* Firefox (latest)
-* Safari (latest)
-* Edge (latest)
+- Chrome (latest)
+- Firefox (latest)
+- Safari (latest)
+- Edge (latest)
 
 ---
 
@@ -219,15 +218,12 @@ All code and screenshots are created by me. Screenshots include the current date
 
 ## Author
 
-**Name:** Ananthu M
-**Email:** [ananthu.m.utr@gmail.com](mailto:ananthu.m.utr@gmail.com)
-**GitHub:** [https://github.com/ananthu-m-01](https://github.com/ananthu-m-01)
+**Name:** Ananthu M  
+**Email:** ananthu.m.utr@gmail.com  
+**GitHub:** https://github.com/ananthu-m-01
 
 ---
 
 ## Acknowledgments
 
 Developed as part of Task #3 – Web UI Forms for the Kaiburr technical assessment.
-
-```
-```
