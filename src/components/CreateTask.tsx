@@ -1,5 +1,5 @@
-import { CheckCircleOutlined, FileAddOutlined } from "@ant-design/icons";
-import { Alert, Button, Card, message, Space, Typography } from "antd";
+import { CheckCircleOutlined, CloseCircleOutlined, FileAddOutlined } from "@ant-design/icons";
+import { Alert, Button, Card, Space, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CREATE_TASK } from "../api/taskApi";
@@ -11,24 +11,31 @@ const CreateTask: React.FC = () => {
   const [savedTask, setSavedTask] = useState<any>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [pageMessage, setPageMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+
   const navigate = useNavigate();
 
   const handleFinish = async (values: any) => {
     setLoading(true);
     setSavedTask(null);
     setErrorMessage(null);
+    setPageMessage(null);
 
     try {
       const response = await CREATE_TASK(values);
       setSavedTask(response);
-      message.success("✅ Task created successfully!");
+
+      // ✅ Set green page message
+      setPageMessage({ type: "success", text: "Task added successfully to the database!" });
     } catch (error: any) {
       const backendMessage =
         error.response?.data?.message ||
         error.response?.data?.error ||
         "Something went wrong while saving the task.";
       setErrorMessage(backendMessage);
-      message.error(backendMessage);
+
+      // ❌ Set red page message
+      setPageMessage({ type: "error", text: backendMessage });
     } finally {
       setLoading(false);
     }
@@ -65,6 +72,28 @@ const CreateTask: React.FC = () => {
               Fill out the form below to add a new automation task.
             </Paragraph>
           </div>
+
+          {/* Page message */}
+          {pageMessage && (
+            <div
+              style={{
+                padding: "12px 20px",
+                borderRadius: 10,
+                textAlign: "center",
+                backgroundColor: pageMessage.type === "success" ? "#f6ffed" : "#fff1f0",
+                color: pageMessage.type === "success" ? "#52c41a" : "#ff4d4f",
+                fontWeight: 500,
+                boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+              }}
+            >
+              {pageMessage.type === "success" ? (
+                <CheckCircleOutlined style={{ marginRight: 8 }} />
+              ) : (
+                <CloseCircleOutlined style={{ marginRight: 8 }} />
+              )}
+              {pageMessage.text}
+            </div>
+          )}
 
           <Card
             bordered={false}
