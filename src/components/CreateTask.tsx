@@ -1,10 +1,11 @@
-import { Alert, Button, Card, message, Typography } from "antd";
+import { CheckCircleOutlined, FileAddOutlined } from "@ant-design/icons";
+import { Alert, Button, Card, message, Space, Typography } from "antd";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CREATE_TASK } from "../api/taskApi";
 import TaskForm from "./TaskForm";
 
-const { Title, Text } = Typography;
+const { Title, Text, Paragraph } = Typography;
 
 const CreateTask: React.FC = () => {
   const [savedTask, setSavedTask] = useState<any>(null);
@@ -20,7 +21,7 @@ const CreateTask: React.FC = () => {
     try {
       const response = await CREATE_TASK(values);
       setSavedTask(response);
-      message.success("Task saved successfully to database!");
+      message.success("✅ Task created successfully!");
     } catch (error: any) {
       const backendMessage =
         error.response?.data?.message ||
@@ -36,60 +37,98 @@ const CreateTask: React.FC = () => {
   return (
     <div
       style={{
+        minHeight: "100vh",
         display: "flex",
         justifyContent: "center",
-        padding: "50px 20px",
-        minHeight: "100vh",
-        background: "#f5f5f5",
+        alignItems: "flex-start",
+        background: "linear-gradient(135deg, #f0f5ff, #ffffff)",
+        padding: "60px 20px",
       }}
     >
       <Card
-        title={<Title level={3}>Create New Task</Title>}
+        bordered={false}
         style={{
           width: "100%",
-          maxWidth: 600,
-          borderRadius: 12,
-          boxShadow: "0 4px 10px rgba(0,0,0,0.1)",
+          maxWidth: 700,
+          borderRadius: 20,
+          boxShadow: "0 6px 20px rgba(0,0,0,0.08)",
+          padding: "30px 40px",
         }}
       >
-        <TaskForm mode="create" onFinish={handleFinish} loading={loading} />
+        <Space direction="vertical" size="large" style={{ width: "100%" }}>
+          <div style={{ textAlign: "center" }}>
+            <FileAddOutlined style={{ fontSize: 48, color: "#1677ff" }} />
+            <Title level={2} style={{ marginTop: 10 }}>
+              Create a New Task
+            </Title>
+            <Paragraph style={{ color: "#666" }}>
+              Fill out the form below to add a new automation task.
+            </Paragraph>
+          </div>
 
-        {savedTask && (
-          <Alert
-            message="Task Saved Successfully!"
-            description={
-              <div>
-                <p><b>Name:</b> {savedTask.name}</p>
-                <p><b>Owner:</b> {savedTask.owner}</p>
-                <p><b>Command:</b> {savedTask.command}</p>
-                <Button
-                  type="primary"
-                  onClick={() => navigate(`/view-task/${savedTask.id}`)}
-                  style={{ marginTop: 10 }}
-                >
-                  See More Details
-                </Button>
-              </div>
-            }
-            type="success"
-            showIcon
-            style={{ marginTop: 20 }}
-          />
-        )}
+          <Card
+            bordered={false}
+            style={{
+              backgroundColor: "#f9fbff",
+              borderRadius: 12,
+              boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+              padding: "24px",
+            }}
+          >
+            <TaskForm mode="create" onFinish={handleFinish} loading={loading} />
+          </Card>
 
-        {errorMessage && (
-          <Alert
-            message="Failed to Save Task"
-            description={errorMessage}
-            type="error"
-            showIcon
-            style={{ marginTop: 20 }}
-          />
-        )}
+          {savedTask && (
+            <Alert
+              icon={<CheckCircleOutlined style={{ color: "#52c41a" }} />}
+              message={
+                <Text strong style={{ fontSize: 16 }}>
+                  Task Created Successfully!
+                </Text>
+              }
+              description={
+                <div style={{ marginTop: 8 }}>
+                  <Paragraph style={{ marginBottom: 0 }}>
+                    <b>Name:</b> {savedTask.name} <br />
+                    <b>Owner:</b> {savedTask.owner} <br />
+                    <b>Command:</b> {savedTask.command}
+                  </Paragraph>
+                  <Button
+                    type="primary"
+                    shape="round"
+                    onClick={() => navigate(`/view-task/${savedTask.id}`)}
+                    style={{ marginTop: 10 }}
+                  >
+                    View Task Details
+                  </Button>
+                </div>
+              }
+              type="success"
+              showIcon
+              style={{
+                borderRadius: 10,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+              }}
+            />
+          )}
 
-        <Text type="secondary" style={{ display: "block", marginTop: 20 }}>
-          After creation, the task will appear in the “View All Tasks” section.
-        </Text>
+          {errorMessage && (
+            <Alert
+              message="Failed to Save Task"
+              description={errorMessage}
+              type="error"
+              showIcon
+              style={{
+                borderRadius: 10,
+                boxShadow: "0 2px 10px rgba(0,0,0,0.05)",
+              }}
+            />
+          )}
+
+          <Text type="secondary" style={{ display: "block", textAlign: "center" }}>
+            Once created, the task will appear in the “View All Tasks” section.
+          </Text>
+        </Space>
       </Card>
     </div>
   );
