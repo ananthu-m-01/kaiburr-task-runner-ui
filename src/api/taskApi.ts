@@ -35,3 +35,14 @@ export const GET_TASK_BY_ID = async (id: string) => {
     throw error;
   }
 };
+
+// Run a task by ID (returns TaskExecutionDTO)
+export const RUN_TASK = async (id: string) => {
+  try {
+    const response = await axios.put(`${BASE_URL}/${id}/run`); // Corrected URL
+    return response.data; // returns TaskExecutionDTO
+  } catch (error) {
+    console.error(`Error running task with id ${id}:`, error);
+    throw error;
+  }
+};

@@ -1,7 +1,8 @@
-import { Alert, Card, List, Spin, Typography } from "antd";
+import { Alert, Button, Card, List, Spin, Typography } from "antd";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { GET_TASK_BY_ID } from "../api/taskApi";
+import { GET_TASK_BY_ID, RUN_TASK } from "../api/taskApi";
+
 
 const { Title, Text } = Typography;
 
@@ -25,26 +26,47 @@ const ViewTask: React.FC = () => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [running, setRunning] = useState<boolean>(false);
+  const [terminalOutput, setTerminalOutput] = useState<string>("");
+
+  const fetchTask = async () => {
+    setLoading(true);
+    try {
+      const data = await GET_TASK_BY_ID(id!);
+      setTask(data);
+      setError(null);
+    } catch (err: any) {
+      if (err.response && err.response.status === 404) {
+        setError("Task not found (404)");
+      } else {
+        setError("Failed to fetch task details");
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const data = await GET_TASK_BY_ID(id!);
-        setTask(data);
-        setError(null);
-      } catch (err: any) {
-        if (err.response && err.response.status === 404) {
-          setError("Task not found (404)");
-        } else {
-          setError("Failed to fetch task details");
-        }
-      } finally {
-        setLoading(false);
-      }
-    };
-
     fetchTask();
   }, [id]);
+
+  const handleRunTask = async () => {
+    if (!task) return;
+    setRunning(true);
+    setTerminalOutput("");
+    try {
+      const execution = await RUN_TASK(task.id);
+      setTerminalOutput(execution.output);
+      // Refresh task executions
+      await fetchTask();
+    } catch (err: any) {
+      const msg =
+        err.response?.data?.message || "Failed to run task. Command may be unsafe.";
+      setTerminalOutput(msg);
+    } finally {
+      setRunning(false);
+    }
+  };
 
   if (loading) {
     return (
@@ -67,11 +89,40 @@ const ViewTask: React.FC = () => {
   return (
     <div style={{ padding: 20 }}>
       <Title level={3}>Task Details</Title>
-      <Card style={{ borderRadius: 10 }}>
+
+      <Card style={{ borderRadius: 10, marginBottom: 20 }}>
         <Text strong>Name:</Text> {task.name || "N/A"} <br />
         <Text strong>Owner:</Text> {task.owner || "N/A"} <br />
         <Text strong>Command:</Text> {task.command || "N/A"} <br />
-        <Text strong>Executions:</Text>
+        <Button
+          type="primary"
+          onClick={handleRunTask}
+          loading={running}
+          style={{ marginTop: 10 }}
+        >
+          Run Task
+        </Button>
+      </Card>
+
+      <Card style={{ borderRadius: 10, marginBottom: 20 }}>
+        <Text strong>Terminal Output:</Text>
+        <pre
+          style={{
+            backgroundColor: "#000",
+            color: "#0f0",
+            minHeight: 150,
+            padding: 10,
+            overflow: "auto",
+            borderRadius: 6,
+            marginTop: 5,
+          }}
+        >
+          {terminalOutput || "Output will appear here after running the task..."}
+        </pre>
+      </Card>
+
+      <Card style={{ borderRadius: 10 }}>
+        <Text strong>Previous Executions:</Text>
         {task.taskExecutions.length > 0 ? (
           <List
             dataSource={task.taskExecutions}
